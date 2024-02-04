@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib
 from matplotlib.patches import Arc, Rectangle, Ellipse
 from matplotlib import cm
 
@@ -14,6 +15,7 @@ class PlotContacts(object):
     def plot_contacts(self, ax, gr: GenomeRange, gr2: GenomeRange, intervals: pd.DataFrame):
         style = self.properties['style']
         columns = intervals.columns
+        print(f"Here is the columns of intervals{columns}")
         if style == self.STYLE_ARCS:
             assert len(intervals) == 0 or all(c in columns for c in ['pos1', 'pos2']), \
                 "The 'arcs' style's input DataFrame should have columns ['pos1', 'pos2']"
@@ -102,9 +104,11 @@ class PlotContacts(object):
             height = 2 * get_height(diameter)
             center = (start + end) / 2
             ax.plot([center], [diameter])
+            print(f"This is matplotlib version {matplotlib.__version__}")
             arc = Arc(
                 (center, 0), diameter,
-                height, 0, 0, 180,
+                height, angle=0, 
+                theta1=0, theta2=180,
                 color=color,
                 alpha=alpha,
                 lw=line_width,

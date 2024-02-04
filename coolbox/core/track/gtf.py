@@ -127,21 +127,32 @@ class GTF(Track):
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
         df = self.fetch_plot_data(gr)
+        print(f"in plot {df.iloc[1:5, :]}")
+        print(f"This is length of {len(df)}")
         if self.has_prop("row_filter"):
+            print(f"I'm here {df['feature']}")
             filters = self.properties["row_filter"]
             for filter_ in filters.split(";"):
                 try:
                     op_idx = list(re.finditer("[=><!]", filter_))[0].start()
                     l_ = filter_[:op_idx].strip()
                     r_ = filter_[op_idx:]
+                    print(f'filter command: df[df["{l_}"]{r_}]')
                     df = eval(f'df[df["{l_}"]{r_}]')
                 except IndexError:
                     log.warning(f"row filter {filter_} is not valid.")
         region_length = gr.end - gr.start
         len_ratio_th = self.properties["length_ratio_thresh"]
+        print(f"Hahaha {len_ratio_th}")
+        print(f"region length {region_length}")
+        print(df["end"] - df["start"])
         df = df[(df["end"] - df["start"]) > region_length * len_ratio_th]
+        print(f"This is length of df after processing {len(df)}")
         features = []
         for _, row in df.iterrows():
+            print(f"row start {row['start']}")
+            print(f"row end {row['end']}")
+            print(f"row name {row['feature_name']}")
             gf = GraphicFeature(
                 start=row['start'],
                 end=row['end'],

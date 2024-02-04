@@ -37,6 +37,9 @@ class BEDPE(ArcsBase, FetchParix):
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         # filter peaks manually for hicpeaks style in fetch_plot_data
         df = self.fetch_intervals(self.bgz_file, gr, kwargs.get('gr2'))
+        print(f"This is\n {df.iloc[1:3,:]}")
+        df.columns = ["chrom1", "start1", "end1", "chrom2", "start2", "end2",
+              "name", "score", "strand1", "strand2"]
         # TODO the returned df has no named columns, may cause error
         if len(df) == 0:
             return df

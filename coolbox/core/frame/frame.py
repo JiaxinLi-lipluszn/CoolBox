@@ -206,6 +206,7 @@ class Frame(FrameBase):
             track.y_ax = y_ax
             try:
                 # Attention, copy is necessary, otherwise GenomeRange may change due to call of gr.change_chrom_names
+                print(f"Here is")# {type(gr)}")
                 track.plot(ax, copy(gr), gr2=copy(gr2))
 
             except Exception as e:
