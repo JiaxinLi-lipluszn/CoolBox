@@ -104,7 +104,7 @@ class PlotContacts(object):
             height = 2 * get_height(diameter)
             center = (start + end) / 2
             ax.plot([center], [diameter])
-            print(f"This is matplotlib version {matplotlib.__version__}")
+            # print(f"This is matplotlib version {matplotlib.__version__}")
             arc = Arc(
                 (center, 0), diameter,
                 height, angle=0, 

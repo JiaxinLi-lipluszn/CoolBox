@@ -49,14 +49,18 @@ class BED(BedBase, PlotGenes, FetchBed):
         'row_height': 0.5,
     }
 
-    def __init__(self, file, **kwargs):
+    def __init__(self, file, plot_gene = None, **kwargs):
         properties = BED.DEFAULT_PROPERTIES.copy()
         properties.update(kwargs)
         super().__init__(file, **properties)
         PlotGenes.__init__(self)
+        self.plot_gene = plot_gene
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
         ov_intervals: pd.DataFrame = self.fetch_plot_data(gr, **kwargs)
+        print(f"This is the ov_intervals shape {ov_intervals.shape}")
+        print(f"This is one line of ov_intervals {ov_intervals.iloc[0,:]}")
+        ov_intervals = ov_intervals[ov_intervals['name'] == self.plot_gene] #TODO: remove the hard code
         self.plot_genes(ax, gr, ov_intervals)
         self.plot_label()
